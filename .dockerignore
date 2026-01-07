@@ -1,0 +1,26 @@
+# Git
+.git
+.gitignore
+
+# Python
+__pycache__
+*.py[cod]
+*$py.class
+venv/
+.venv/
+env/
+
+# Frontend (Since we are deploying backend only)
+client/
+node_modules/
+
+# IDE
+.idea/
+.vscode/
+
+# Docker
+Dockerfile
+.dockerignore
+
+# Env
+.env
