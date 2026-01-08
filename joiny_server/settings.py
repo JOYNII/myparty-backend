@@ -10,7 +10,11 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.2/ref/settings/
 """
 
+import os
 from pathlib import Path
+from dotenv import load_dotenv
+
+load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -20,20 +24,12 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = 'django-insecure-#(w1e96lk+*a^s=135dtyu98n6psy2om2z(rx(xej-fl2p5h*f'
+SECRET_KEY = os.getenv('SECRET_KEY', 'django-insecure-#(w1e96lk+*a^s=135dtyu98n6psy2om2z(rx(xej-fl2p5h*f')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = os.getenv('DEBUG', 'True') == 'True'
 
-import socket
-# Find local IP address and add it to ALLOWED_HOSTS
-try:
-    hostname = socket.gethostname()
-    ip_address = socket.gethostbyname(hostname)
-except socket.gaierror:
-    ip_address = '127.0.0.1' # Fallback
-
-ALLOWED_HOSTS = ['localhost', '127.0.0.1', ip_address, '.ngrok-free.app', '.ngrok-free.dev']
+ALLOWED_HOSTS = os.getenv('ALLOWED_HOSTS', 'localhost,127.0.0.1,.ngrok-free.app,.ngrok-free.dev').split(',')
 
 
 # Instruct Django to trust the X-Forwarded-Proto header from the proxy
@@ -128,11 +124,11 @@ ASGI_APPLICATION = 'joiny_server.asgi.application'
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'joiny_db',         # 위에서 만든 데이터베이스 이름
-        'USER': 'joiny_user',       # 위에서 만든 사용자 이름
-        'PASSWORD': '1234', # 설정한 비밀번호
-        'HOST': 'localhost',
-        'PORT': '5432'
+        'NAME': os.getenv('DB_NAME', 'joiny_db'),
+        'USER': os.getenv('DB_USER', 'joiny_user'),
+        'PASSWORD': os.getenv('DB_PASSWORD', '1234'),
+        'HOST': os.getenv('DB_HOST', 'localhost'),
+        'PORT': os.getenv('DB_PORT', '5432'),
     }
 }
 
