@@ -82,18 +82,15 @@ CORS_ALLOWED_ORIGIN_REGEXES = [
 ]
 
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:3000",
-    "https://localhost:3000",
-    f"http://{ip_address}:3000",
-    f"https://{ip_address}:3000",
-    "https://estell-supereffective-selena.ngrok-free.dev",
-]
+CORS_ALLOWED_ORIGINS = os.getenv(
+    'CORS_ALLOWED_ORIGINS',
+    'http://localhost:3000,https://localhost:3000'
+).split(',')
 
-CSRF_TRUSTED_ORIGINS = [
-    "https://estell-supereffective-selena.ngrok-free.dev",
-    "http://localhost:3000",
-]
+CSRF_TRUSTED_ORIGINS = os.getenv(
+    'CSRF_TRUSTED_ORIGINS',
+    'http://localhost:3000,https://localhost:3000,https://estell-supereffective-selena.ngrok-free.dev'
+).split(',')
 
 ROOT_URLCONF = 'joiny_server.urls'
 
